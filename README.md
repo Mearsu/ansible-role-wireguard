@@ -1,38 +1,160 @@
-Role Name
-=========
+# Role Name
 
-A brief description of the role goes here.
 
-Requirements
-------------
+Ansible role for wireguard config.
+Unlike wireguard, this role distinguished server from client.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+This role requires that you specify wireguard IP (IP address used inside tunnel) for every host (see example inventory later).
+You can use IPv6 addresses inside tunnel, I havent tested IPv6 for transport, because I don't have IPv6 at home.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-Dependencies
-------------
+## Role Variables
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+defaults:
+- `wg_interface_name` - name of wireguard interface and config file (config is `wg_interface_name`.conf), default is wg0
+- `wg_port` - port on which to start wireguard, default is 51820
+- `wg_mode` - whether particular device is in server or client mode (more on that later)
 
-Example Playbook
-----------------
+vars/wg_default.yml
+- `wg_package` - package name to install, because it seams that wireguard is packaged in `wireguard-tools` on many distributions, I haven't added distro-specific names yet
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+other variables
+- `wg_ip` - IP address to use inside the tunnel
+- `wg_mask` - network mask inside tunnel
+- `wg_nat_group` - group of devices that are behind nat, but can reach each other (explained later)
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
-License
--------
+## Example Playbook
 
-BSD
+Basic playbook:
 
-Author Information
-------------------
+```yaml
+- name: Install and setup wireguard
+  hosts: wg_all
+
+  roles:
+    - role: wireguard
+      become: true
+```
+
+Inventory file:
+
+``` yaml
+servers:
+  vars:
+    wg_mode: "server"
+  hosts:
+    s1:
+      ansible_host: "192.168.122.10"
+      wg_ip: "fd0d:1::10"
+    s2:
+      ansible_host: "192.168.122.11"
+      wg_ip: "fd0d:1::11"
+
+clients:
+  vars:
+    wg_mode: "client"
+  hosts:
+    c1:
+      ansible_host: "192.168.122.12"
+      wg_ip: "fd0d:1::12"
+    c2:
+      ansible_host: "192.168.122.13"
+      wg_ip: "fd0d:1::13"
+    c3:
+      ansible_host: "192.168.122.14"
+      wg_ip: "fd0d:1::14"
+    c4:
+      ansible_host: "192.168.122.15"
+      wg_ip: "fd0d:1::15"
+
+wg_all:
+  vars:
+    wg_mask: "64"
+  children:
+    clients:
+    servers:
+```
+
+## Client and server mode
+
+By default all devices are in server mode.
+In server mode devices form full mesh topology and each server has specified Endpoint of other servers.
+
+If you set `wg_mode` to "client" for some devices, this role will:
+- On servers only specifies public key and allowed IP (not endpoint)
+- On client adds all servers as peers
+- On client sets PersistentKeepalive for all peers to 60
+
+### NAT groups
+
+In situations where multiple clients are begind one nat and can reach each other, you can specify nat group.
+
+If you create nat group, clients will:
+- Have all servers as their peers
+- Form full mesh with other clients from same NAT group
+
+Inventory file with nat groups can be for example this:
+
+``` yaml
+servers:
+  vars:
+    wg_mode: "server"
+  hosts:
+    s1:
+      ansible_host: "192.168.122.10"
+      wg_ip: "fd0d:1::10"
+    s2:
+      ansible_host: "192.168.122.11"
+      wg_ip: "fd0d:1::11"
+
+clients:
+  vars:
+    wg_mode: "client"
+    # Specifies which nat groups will be used for these clients
+    wg_nat_group: "nat_1"
+  hosts:
+    c1:
+      ansible_host: "192.168.122.12"
+      wg_ip: "fd0d:1::12"
+    c2:
+      ansible_host: "192.168.122.13"
+      wg_ip: "fd0d:1::13"
+    c3:
+      ansible_host: "192.168.122.14"
+      wg_ip: "fd0d:1::14"
+    c4:
+      ansible_host: "192.168.122.15"
+      wg_ip: "fd0d:1::15"
+
+wg_all:
+  vars:
+    wg_mask: "64"
+  children:
+    clients:
+    servers:
+
+# Defines which clients are in NAT group
+nat_1:
+  hosts:
+    c1:
+    c2:
+    c3:
+```
+
+Note that `wg_nag_group` is set for all clients, but only clients 1-3 are actually added to the nat group.
+In this case, `wg_nat_group` will be ignored for client `c4` as this client doesn't belong in the group.
+Clients 1-3 will form full mesh topology and and client-client communication will not go through servers.
+
+Communication with client 4 will go through server.
+
+
+## License
+
+GPL 3.0
+
+## Author Information
 
 An optional section for the role authors to include contact information, or a website (HTML is not allowed).
