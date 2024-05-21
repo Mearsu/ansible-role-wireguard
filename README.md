@@ -24,6 +24,7 @@ other variables
 - `wg_ip` - IP address to use inside the tunnel
 - `wg_mask` - network mask inside tunnel
 - `wg_nat_group` - group of devices that are behind nat, but can reach each other (explained later)
+- `wg_server_aditional_config` and `wg_client_aditional_config` - Additional config that is inserted into wireguard config between `[Interface]` and first `[Peer]` sections allowing to add aditional interface settings and peers that are not managed by ansible
 
 
 ## Example Playbook
