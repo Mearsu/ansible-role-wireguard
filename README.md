@@ -18,7 +18,7 @@ defaults:
 - `wg_mode` - whether particular device is in server or client mode (more on that later)
 
 vars/wg_default.yml
-- `wg_package` - package name to install, because it seams that wireguard is packaged in `wireguard-tools` on many distributions, I haven't added distro-specific names yet
+- `wg_package` - package name to install. Because it looks like wireguard is packaged in `wireguard-tools` on most distros, I haven't added distro-specific names yet
 
 other variables
 - `wg_ip` - IP address to use inside the tunnel
@@ -144,12 +144,15 @@ nat_1:
     c3:
 ```
 
-Note that `wg_nag_group` is set for all clients, but only clients 1-3 are actually added to the nat group.
-In this case, `wg_nat_group` will be ignored for client `c4` as this client doesn't belong in the group.
+Note that `wg_natgroup` is set for all clients, but only clients 1-3 are actually added to the nat group.
+In this case `wg_nat_group` will be ignored for client `c4` as this client doesn't belong in the group.
 Clients 1-3 will form full mesh topology and and client-client communication will not go through servers.
-
 Communication with client 4 will go through server.
 
+In this case, devices will form this topology:
+
+![uml of packets](nat-example.png)
+(arrows indicate in which direction is `Endpoint` configured)
 
 ## License
 
