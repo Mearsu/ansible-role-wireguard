@@ -85,14 +85,14 @@ In server mode devices form full mesh topology and each server has specified End
 
 If you set `wg_mode` to "client" for some devices, this role will:
 - On servers only specifies public key and allowed IP (not endpoint)
-- On client adds all servers as peers
-- On client sets PersistentKeepalive for all peers to 60
+- Servers will have only public key and allowed ip (not endpoint)
+- Clients will have all server added as peers with PersistentKeepalive set to 60
 
 ### NAT groups
 
 In situations where multiple clients are begind one nat and can reach each other, you can specify nat group.
 
-If you create nat group, clients will:
+If you create NAT group, clients in that group will:
 - Have all servers as their peers
 - Form full mesh with other clients from same NAT group
 
@@ -157,4 +157,4 @@ GPL 3.0
 
 ## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+If you need something regarding this role (bug, improvements to the readme, questions,... ), probably the easiest would be to open an issue on [GitHub](https://github.com/Mearsu/ansible-role-wireguard) or to use contact form on [my website](https://www.matej-vrba.com/en).
