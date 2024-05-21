@@ -15,7 +15,7 @@ AllowedIPs = {{ wg_ip }}/{{wg_mask}}
 {% endfor %}
 
 
-{% for c in groups[wg_nat_group] if ansible_hostname in groups[wg_nat_group] -%}
+{% for c in groups[wg_nat_group] if ansible_hostname in groups[wg_nat_group] and c != inventory_hostname -%}
 [Peer]
 PublicKey = {{ hostvars[c].pubkey }}
 AllowedIPs = {{ hostvars[c].wg_ip }}
