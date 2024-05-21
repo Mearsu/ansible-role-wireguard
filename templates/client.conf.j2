@@ -10,7 +10,7 @@ ListenPort = {{wg_port}}
 PublicKey = {{ hostvars[c].pubkey }}
 AllowedIPs = {{ hostvars[c].wg_ip }}
 Endpoint = {{ hostvars[c].ansible_host }}:{{wg_port}}
-PersistentKeepalive = 60
+PersistentKeepalive = {{wg_keepalive}}
 AllowedIPs = {{ wg_ip }}/{{wg_mask}}
 {% endfor %}
 
