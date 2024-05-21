@@ -1,0 +1,19 @@
+---
+- name: include default variables
+  include_vars: "vars/wg_default.yml"
+#- name: include os-specific variables
+#  include_vars: "vars/wg_{{ansible_os_family}}.yml"
+
+- name: Install wireguard
+  include_tasks: install.yml
+
+- name: Generate wireguard keys
+  include_tasks: keys.yml
+
+- name: Setup wireguard clients
+  include_tasks: setup_client.yml
+  when: wg_mode == "client"
+
+- name: Setup wireguard servers
+  include_tasks: setup_server.yml
+  when: wg_mode == "server"

@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+[Interface]
+Address = {{ wg_ip }}/{{wg_mask}}
+ListenPort = {{wg_port}}
+PrivateKey = {{ privkey }}
+
+
+{% for c in ansible_play_hosts if c != inventory_hostname-%}
+[Peer]
+PublicKey = {{ hostvars[c].pubkey }}
+AllowedIPs = {{ hostvars[c].wg_ip }}
+{% if hostvars[c].wg_mode == "server" -%}
+Endpoint = {{ hostvars[c].ansible_host }}:{{wg_port}}
+{% endif %}
+{% endfor %}

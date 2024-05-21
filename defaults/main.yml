@@ -1,0 +1,5 @@
+---
+# defaults file for wireguard
+wg_interface_name: wg0
+wg_port: 51820
+wg_mode: "server"

@@ -1,0 +1,5 @@
+- name: Install wireguard
+  ansible.builtin.package:
+    name: "{{wg_package}}"
+    state: present
+  notify: enable wg service now

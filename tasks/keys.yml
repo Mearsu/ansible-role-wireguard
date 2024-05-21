@@ -1,0 +1,25 @@
+---
+- name: generate private key
+  shell:
+    cmd: "umask 077 && wg genkey | tee {{wg_interface_name}}.privkey | wg pubkey > {{wg_interface_name}}.pubkey"
+    chdir: /etc/wireguard
+    creates: "/etc/wireguard/{{wg_interface_name}}.pubkey"
+
+- name: get pubkey
+  command: "cat /etc/wireguard/{{wg_interface_name}}.pubkey"
+  register: pubkey
+  changed_when: False
+
+- name: set pubkey fact
+  set_fact:
+    pubkey: "{{ pubkey.stdout }}"
+
+
+- name: get privkey
+  command: "cat /etc/wireguard/{{wg_interface_name}}.privkey"
+  register: privkey
+  changed_when: False
+
+- name: set privkey fact
+  set_fact:
+    privkey: "{{ privkey.stdout }}"
