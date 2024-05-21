@@ -4,5 +4,5 @@ wg_interface_name: wg0
 wg_port: 51820
 wg_mode: "server"
 wg_keepalive: 60
-wg_server_aditional_config: ""
-wg_client_aditional_config: ""
+wg_server_additional_config: ""
+wg_client_additional_config: ""

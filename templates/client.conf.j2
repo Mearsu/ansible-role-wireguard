@@ -4,7 +4,7 @@ Address = {{ wg_ip }}/{{wg_mask}}
 PostUp = wg set %i private-key /etc/wireguard/{{wg_interface_name}}.privkey
 ListenPort = {{wg_port}}
 
-{{ wg_client_aditional_config }}
+{{ wg_client_additional_config }}
 
 {% for c in ansible_play_hosts if hostvars[c].wg_mode == "server" -%}
 [Peer]

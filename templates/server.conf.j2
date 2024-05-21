@@ -4,7 +4,7 @@ Address = {{ wg_ip }}/{{wg_mask}}
 ListenPort = {{wg_port}}
 PrivateKey = {{ privkey }}
 
-{{ wg_server_aditional_config }}
+{{ wg_server_additional_config }}
 
 {% for c in ansible_play_hosts if c != inventory_hostname-%}
 [Peer]
