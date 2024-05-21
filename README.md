@@ -152,6 +152,7 @@ Communication with client 4 will go through server.
 In this case, devices will form this topology:
 
 ![uml of packets](nat-example.png)
+
 (arrows indicate in which direction is `Endpoint` configured)
 
 ## License
