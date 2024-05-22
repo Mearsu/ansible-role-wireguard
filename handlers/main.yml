@@ -1,11 +1,4 @@
 ---
-# handlers file for wireguard
-- name: enable wg service now
-  service:
-    name: "wg-quick@{{wg_interface_name}}"
-    state: started
-    enabled: yes
-
 - name: restart wg service
   service:
     name: "wg-quick@{{wg_interface_name}}"
