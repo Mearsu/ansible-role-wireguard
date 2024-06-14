@@ -1,8 +1,9 @@
 # Role Name
 
-
 Ansible role for wireguard config.
 Unlike wireguard, this role distinguished server from client.
+
+(btw I would recomment viewing this readme on github https://github.com/Splorgle/ansible-role-wireguard there are some differences in how ansible galaxy and github render markdown)
 
 ## Requirements
 
