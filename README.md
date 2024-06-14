@@ -85,7 +85,6 @@ By default all devices are in server mode.
 In server mode devices form full mesh topology and each server has specified Endpoint of other servers.
 
 If you set `wg_mode` to "client" for some devices, this role will:
-- On servers only specifies public key and allowed IP (not endpoint)
 - Servers will have only public key and allowed ip (not endpoint)
 - Clients will have all server added as peers with PersistentKeepalive set to 60
 
@@ -162,4 +161,4 @@ GPL 3.0
 
 ## Author Information
 
-If you need something regarding this role (bug, improvements to the readme, questions,... ), probably the easiest would be to open an issue on [GitHub](https://github.com/Splorgle/ansible-role-wireguard).
+If you need something regarding this role (bug, improvements to the readme, questions,... ), probably the easiest would be to open an issue on [GitHub](https://github.com/Splorgle/ansible-role-wireguard/issues).
