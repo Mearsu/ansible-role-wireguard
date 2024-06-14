@@ -6,6 +6,7 @@ ListenPort = {{wg_port}}
 
 {{ wg_client_additional_config }}
 
+# Servers
 {% for c in ansible_play_hosts if hostvars[c].wg_mode == "server" -%}
 [Peer]
 PublicKey = {{ hostvars[c].pubkey }}
@@ -15,8 +16,8 @@ PersistentKeepalive = {{wg_keepalive}}
 AllowedIPs = {{ wg_ip }}/{{wg_mask}}
 {% endfor %}
 
-
-{% for c in groups[wg_nat_group] if ansible_hostname in groups[wg_nat_group] and c != inventory_hostname -%}
+# Peers
+{% for c in groups[wg_nat_group] if inventory_hostname in groups[wg_nat_group] and c != inventory_hostname -%}
 [Peer]
 PublicKey = {{ hostvars[c].pubkey }}
 AllowedIPs = {{ hostvars[c].wg_ip }}

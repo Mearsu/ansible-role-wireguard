@@ -2,8 +2,3 @@
   ansible.builtin.package:
     name: "{{wg_package}}"
     state: present
-- name: Ensure wg-quick service is enabled and started
-  service:
-    name: "wg-quick@{{wg_interface_name}}"
-    state: started
-    enabled: true

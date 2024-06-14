@@ -162,4 +162,4 @@ GPL 3.0
 
 ## Author Information
 
-If you need something regarding this role (bug, improvements to the readme, questions,... ), probably the easiest would be to open an issue on [GitHub](https://github.com/Mearsu/ansible-role-wireguard) or to use contact form on [my website](https://www.matej-vrba.com/en).
+If you need something regarding this role (bug, improvements to the readme, questions,... ), probably the easiest would be to open an issue on [GitHub](https://github.com/Splorgle/ansible-role-wireguard).
