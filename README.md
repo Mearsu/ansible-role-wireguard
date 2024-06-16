@@ -87,7 +87,7 @@ In server mode devices form full mesh topology and each server has specified End
 
 If you set `wg_mode` to "client" for some devices, this role will:
 - Servers will have only public key and allowed ip (not endpoint)
-- Clients will have all server added as peers with PersistentKeepalive set to 60
+- Clients will have all servers added as peers with PersistentKeepalive set to 60
 
 ### NAT groups
 
